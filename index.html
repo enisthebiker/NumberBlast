@@ -1,0 +1,90 @@
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sayı Şekerleri 2</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+
+    <main class="game-container">
+        <header class="game-header">
+
+            <div class="logo number-logo">
+    <span>3</span>
+    <span>3</span>
+    <span>3</span>
+</div>
+<div class="language-switch">
+    <button id="lang-tr" class="active">TR</button>
+    <button id="lang-en">EN</button>
+</div>
+            <h1>Sayı Patlat</h1>
+
+
+            <p>Aynı sayıları eşleştir, toplamlarını keşfet!</p>
+        </header>
+
+        <section class="stats">
+            <div class="stat">
+                <span class="stat-label" id="score-label">PUAN</span>
+                <strong id="score">0</strong>
+            </div>
+
+            <div class="stat">
+                <span class="stat-label" id="moves-label">HAMLE</span>
+                <strong id="moves">0</strong>
+            </div>
+
+            <div class="stat">
+                <span class="stat-label" id="chain-label">ZİNCİR</span>
+                <strong id="chain">0</strong>
+            </div>
+        </section>
+
+        <div class="game-message" id="message">
+            Aynı sayılı en az 3 şekli eşleştir!
+        </div>
+
+        <section class="board-wrapper">
+            <div id="board" class="board" aria-label="Oyun alanı"></div>
+
+            <div id="math-popup" class="math-popup" aria-live="polite">
+                <span id="math-expression"></span>
+            </div>
+
+<div id="game-over-popup" class="game-over-popup" aria-live="polite">
+    <div class="game-over-panel">
+        <h2 id="game-over-title">Hamle kalmadı!</h2>
+        <p id="game-over-message"></p>
+        <p class="final-score"><span id="final-score-label">Puanın:</span> <strong id="final-score">0</strong></p>
+
+        <button id="shuffle-button" class="popup-button shuffle-button">
+            🔀 Karıştır
+        </button>
+
+        <button id="restart-button" class="popup-button restart-button">
+            ↻ Yeni Oyun
+        </button>
+    </div>
+</div>
+
+        </section>
+
+        <button id="new-game" class="new-game-button">
+            ↻ Yeni Oyun
+        </button>
+
+        <footer>
+            Yatay veya dikey en az 3 aynı sayıyı eşleştir.
+            <br>
+            Eşleşmelerin toplamını gör ve puan kazan!
+        </footer>
+    </main>
+
+</body>
+</html>

@@ -1,0 +1,465 @@
+
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --background: #111522;
+    --panel: #1b2234;
+    --text: #f5f6ff;
+    --muted: #a8b0c7;
+    --accent: #a855f7;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    padding: 20px 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background:
+        radial-gradient(circle at top, #292044, transparent 55%),
+        var(--background);
+    color: var(--text);
+    font-family: Arial, sans-serif;
+}
+
+.game-container {
+    width: 100%;
+    max-width: 490px;
+    text-align: center;
+}
+
+.game-header {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.logo {
+    font-size: 42px;
+}
+
+h1 {
+    margin: 5px 0 8px;
+    font-size: clamp(25px, 6vw, 34px);
+    letter-spacing: 1px;
+}
+
+.game-header p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 14px;
+}
+
+.stat {
+    padding: 12px 5px;
+    border: 1px solid #343c53;
+    border-radius: 12px;
+    background: var(--panel);
+}
+
+.stat-label {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--muted);
+    font-size: 11px;
+    letter-spacing: 1px;
+}
+
+.stat strong {
+    font-size: 23px;
+}
+
+.game-message {
+    min-height: 24px;
+    margin-bottom: 12px;
+    color: #d9c7ff;
+    font-size: 14px;
+}
+
+.board-wrapper {
+    position: relative;
+    padding: 8px;
+    border: 1px solid #343c53;
+    border-radius: 16px;
+    background: #20283a;
+    box-shadow: 0 15px 40px #0005;
+}
+
+.board {
+    display: grid;
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+    gap: 4px;
+    width: 100%;
+}
+
+.candy {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 0;
+    aspect-ratio: 1;
+    padding: 0;
+    border: 0;
+    border-radius: 10px;
+    color: white;
+    font-size: clamp(14px, 4vw, 23px);
+    font-weight: 800;
+    text-shadow: 0 2px 3px #0004;
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    transition:
+        transform 0.15s ease,
+        filter 0.15s ease,
+        background-color 0.2s ease;
+    box-shadow:
+        inset 0 3px 2px #ffffff35,
+        inset 0 -4px 3px #0002;
+}
+
+.candy:hover {
+    filter: brightness(1.13);
+}
+
+.candy.selected {
+    transform: scale(0.88);
+    outline: 3px solid white;
+    outline-offset: -4px;
+    filter: brightness(1.25);
+}
+
+.candy.matched {
+    background: #050505 !important;
+    color: #ffffff;
+    box-shadow: inset 0 0 0 2px #444;
+    transform: scale(0.88);
+    animation: match-flash 0.25s ease-in-out;
+}
+
+.candy.empty {
+    visibility: hidden;
+}
+
+.candy:disabled {
+    cursor: default;
+}
+
+.color-1 {
+    background: linear-gradient(145deg, #E62954, #c40020);
+}
+
+.color-2 {
+    background: linear-gradient(145deg, #86efac, #15803d);
+}
+
+.color-3 {
+    background: linear-gradient(145deg, #3b82f6, #172554);
+}
+
+.color-4 {
+    background: linear-gradient(145deg, #fff176, #d97706);
+}
+
+.color-5 {
+    background: linear-gradient(145deg, #c4a1ff, #6b21a8);
+}
+
+.color-6 {
+    background: linear-gradient(145deg, #f59e0b, #9a3412);
+}
+
+.color-7 {
+    background: linear-gradient(145deg, #f9a8d4, #db2777);
+}
+
+.color-8 {
+    background: linear-gradient(145deg, #67e8f9, #0891b2);
+}
+
+.color-9 {
+    background: linear-gradient(145deg, #94a3b8, #475569);
+}
+
+.math-popup {
+    position: absolute;
+    z-index: 5;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.math-popup.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+#math-expression {
+    display: inline-block;
+    max-width: 100%;
+    padding: 13px 18px;
+    border: 2px solid #ffffff;
+    border-radius: 14px;
+    background: #121522f5;
+    color: #ffffff;
+    font-size: clamp(18px, 5vw, 27px);
+    font-weight: 800;
+    overflow-wrap: anywhere;
+    box-shadow: 0 8px 30px #0008;
+    animation: popup-in 0.2s ease-out;
+}
+
+.new-game-button {
+    width: 100%;
+    margin-top: 16px;
+    padding: 14px;
+    border: 0;
+    border-radius: 12px;
+    background: linear-gradient(100deg, #9333ea, #6d28d9);
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: filter 0.2s;
+}
+
+.new-game-button:hover {
+    filter: brightness(1.15);
+}
+
+.new-game-button:active {
+    transform: scale(0.99);
+}
+
+footer {
+    margin-top: 16px;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+@keyframes match-flash {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(0.8);
+    }
+    100% {
+        transform: scale(0.88);
+    }
+}
+
+@keyframes popup-in {
+    from {
+        transform: scale(0.8);
+    }
+    to {
+        transform: scale(1);
+    }
+}
+
+@media (max-width: 360px) {
+    .board-wrapper {
+        padding: 5px;
+    }
+
+    .board {
+        gap: 3px;
+    }
+
+    .candy {
+        border-radius: 7px;
+    }
+
+    #math-expression {
+        padding: 10px;
+    }
+}
+
+/* Şekerlerin düşme animasyonu */
+
+
+.candy.falling {
+    animation: candy-fall 0.38s cubic-bezier(0.22, 0.7, 0.35, 1) both;
+    z-index: 2;
+}
+
+@keyframes candy-fall {
+    from {
+        transform: translateY(var(--fall-distance, -40px));
+        opacity: 0.65;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Hamle kalmadığında gösterilen pencere */
+
+.game-over-popup {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+    background: #080b14d9;
+    border-radius: 16px;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+}
+
+.game-over-popup.show {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.game-over-panel {
+    width: 100%;
+    max-width: 300px;
+    padding: 22px 16px;
+    border: 1px solid #65508f;
+    border-radius: 16px;
+    background: #1b2234;
+    box-shadow: 0 12px 35px #0009;
+    animation: popup-in 0.2s ease-out;
+}
+
+.game-over-panel h2 {
+    margin: 0 0 12px;
+    color: #e9d5ff;
+    font-size: 25px;
+}
+
+.game-over-panel p {
+    margin: 8px 0;
+    color: #cbd2e5;
+    font-size: 14px;
+}
+
+.game-over-panel .final-score {
+    margin: 16px 0;
+    font-size: 17px;
+}
+
+.final-score strong {
+    color: #facc15;
+    font-size: 23px;
+}
+
+.popup-button {
+    width: 100%;
+    margin-top: 10px;
+    padding: 12px;
+    border: 0;
+    border-radius: 10px;
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.shuffle-button {
+    background: linear-gradient(100deg, #0891b2, #155e75);
+}
+
+.restart-button {
+    background: linear-gradient(100deg, #9333ea, #6d28d9);
+}
+
+.popup-button:hover {
+    filter: brightness(1.15);
+}
+
+.popup-button:active {
+    transform: scale(0.98);
+}
+
+.popup-button:disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+
+
+/* Sayı Patlat logosu */
+.number-logo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    margin: 0 auto 6px;
+}
+
+.number-logo span {
+    width: 25px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    color: #fff;
+    font-size: 19px;
+    font-weight: 800;
+    line-height: 1;
+    text-shadow: 0 1px 2px #0005;
+    box-shadow:
+        inset 0 2px 3px #ffffff55,
+        0 2px 4px #0004;
+}
+
+.number-logo span:nth-child(1) {
+    background: linear-gradient(145deg, #ff657a, #d71945);
+}
+
+.number-logo span:nth-child(2) {
+    background: linear-gradient(145deg, #ffd65a, #e69a00);
+}
+
+.number-logo span:nth-child(3) {
+    background: linear-gradient(145deg, #55dff0, #0786b5);
+}
+.language-switch {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 10px;
+}
+
+.language-switch button {
+    padding: 5px 12px;
+    border: 1px solid #64748b;
+    border-radius: 6px;
+    background: #1e293b;
+    color: #fff;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.language-switch button.active {
+    background: #0d9488;
+    border-color: #2dd4bf;
+}
